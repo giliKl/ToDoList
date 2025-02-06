@@ -5,9 +5,16 @@ function App() {
   const [newTodo, setNewTodo] = useState("");
   const [todos, setTodos] = useState([]);
 
+
   async function getTodos() {
     const todos = await service.getTasks();
-    setTodos(todos);
+    console.log("Todos received:", todos); // הדפסת התגובה לבדוק את מבנה הנתונים
+    if (Array.isArray(todos)) {
+      setTodos(todos); // אם מדובר במערך, עדכן את ה-state
+    } else {
+      console.error("Error: Expected an array, but received:", todos);
+      setTodos([]); // במידה ויש בעיה, הצג מערך ריק
+    }
   }
 
   async function createTodo(e) {

@@ -1,0 +1,7 @@
+rnd_WFZZIJ3yFyfnOtrVpkQCInrHHeJj
+
+
+  async function getTodos() {
+    const todos = await service.getTasks();
+    setTodos(todos);
+  }
