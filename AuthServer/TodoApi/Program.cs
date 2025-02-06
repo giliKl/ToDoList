@@ -21,15 +21,17 @@ builder.Services.AddSwaggerGen(c =>
 });
 var app = builder.Build();
 app.UseCors("AllowAll");
-if (app.Environment.IsDevelopment())
-{
+// if (app.Environment.IsDevelopment())
+// {
     app.UseSwagger();
     app.UseSwaggerUI(options => // UseSwaggerUI is called only in Development.
     {
         options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
         options.RoutePrefix = string.Empty;
     });
-}
+// }
+
+app.MapGet("/",()=>"AuthServer API is running");
 app.MapGet("/items", async (ToDoDbContext db) =>
     await db.Items.ToListAsync());
 
