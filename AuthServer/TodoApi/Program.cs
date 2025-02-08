@@ -23,15 +23,15 @@ var app = builder.Build();
 app.UseCors("AllowAll");
 // if (app.Environment.IsDevelopment())
 // {
-    app.UseSwagger();
-    app.UseSwaggerUI(options => // UseSwaggerUI is called only in Development.
-    {
-        options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
-        options.RoutePrefix = string.Empty;
-    });
+app.UseSwagger();
+app.UseSwaggerUI(options => // UseSwaggerUI is called only in Development.
+{
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+    options.RoutePrefix = string.Empty;
+});
 // }
 
-app.MapGet("/",()=>"AuthServer API is running");
+app.MapGet("/", () => "AuthServer API is running");
 app.MapGet("/items", async (ToDoDbContext db) =>
     await db.Items.ToListAsync());
 
@@ -52,7 +52,10 @@ app.MapPut("/items/{id}", async (ToDoDbContext db, int id, Item updatedItem) =>
 {
     var item = await db.Items.FindAsync(id);
     if (item is null) return Results.NotFound();
-
+    if (item.Name != updatedItem.Name)
+    {
+        item.Name = updatedItem.Name;
+    }
     item.IsComplete = updatedItem.IsComplete;
     await db.SaveChangesAsync();
 
